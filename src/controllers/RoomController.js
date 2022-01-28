@@ -6,19 +6,17 @@ module.exports = {
         const pass = req.body.password
         let roomId
         let isRoom = true
-        while(isRoom){
-            /* Gera o numero da sala */
-            for(var i = 0; i < 6; i++){
+
+        while(isRoom){ 
+            for(var i = 0; i < 6; i++){/* Gera o numero da sala */
                 i == 0 ? roomId = Math.floor(Math.random() * 10).toString() :
                 roomId += Math.floor(Math.random() * 10).toString()
-            }
-
-            /* Verificar se esse numero ja existi */
-            const roomsExistIds = await db.all(`SELECT id FROM rooms`)
+            } 
+            const roomsExistIds = await db.all(`SELECT id FROM rooms`)/* Verificar se esse numero ja existe */
             isRoom = roomsExistIds.some(roomExistId => roomExistId === roomId)
 
             if(!isRoom){
-                /* Inseri a sala no banco */
+                /* Insere a sala no banco */
                 await db.run(`INSERT INTO rooms (
                     id,
                     pass
@@ -27,10 +25,8 @@ module.exports = {
                     "${pass}"
                 )`)
             }
-        }         
-
-        await db.close()
-
+        }          
+        await db.close() 
         res.redirect(`/room/${roomId}`)
     },
 
@@ -45,11 +41,9 @@ module.exports = {
             if(questionsRead.length == 0){
                 isNoQuestions = true
             }
-        }
-
+        } 
         res.render("room", {roomId: roomId, questions: questions, questionsRead: questionsRead, isNoQuestions: isNoQuestions})
-    },
-
+    }, 
     enter(req, res){
         const roomId = req.body.roomId
 

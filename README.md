@@ -25,11 +25,9 @@
 
 Esse projeto foi desenvolvido com as seguintes tecnologias:
 
-- HTML
-- CSS
-- JavaScript
-- NodeJS
+- HTML, CSS e JavaScript
 - EJS
+- NodeJS
 - Express
 - SQLite
 
