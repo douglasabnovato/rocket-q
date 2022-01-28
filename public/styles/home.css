@@ -13,15 +13,13 @@ header{
 }
 
 #bg{
-    grid-area: left;
-
+    grid-area: left; 
     background: url('/images/home-bg-img.svg') no-repeat top/contain;
     background-position-x: -10rem;
 }
 
 main{
-    grid-area: right;
-
+    grid-area: right; 
     display: flex;
     align-items: center;
     margin-top: -12rem;
@@ -52,8 +50,7 @@ input, button, .button{
 /* Separator Line */
 .separator{
     display: flex;
-    align-items: center;
-
+    align-items: center; 
     margin: 4rem 0;
 }
 
@@ -78,8 +75,7 @@ input, button, .button{
     height: 21.2rem;
     background: var(--blue);
     clip-path: circle();
-    opacity: 0.1;
-
+    opacity: 0.1; 
     position: fixed;
 }
 
