@@ -14,8 +14,8 @@ module.exports = {
             } 
             const roomsExistIds = await db.all(`SELECT id FROM rooms`)/* Verificar se esse numero ja existe */
             isRoom = roomsExistIds.some(roomExistId => roomExistId === roomId)
-            /* Insere a sala no banco */
-            if(!isRoom){ 
+            
+            if(!isRoom){ /* Insere a sala no banco */
                 await db.run(`INSERT INTO rooms (
                     id,
                     pass
