@@ -37,6 +37,7 @@ O Rocket.Q é uma aplicação de interação através de perguntas, sendo possí
 
 ## 💻 Detalhes do Projeto
 - criar banco: `npm run init-db`
+- Beekeeper para conferir informações e estrutura do banco de dados
 
 ## 🔖 Detalhes no Notion
 
