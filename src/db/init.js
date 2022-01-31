@@ -14,6 +14,7 @@ const initDb = {
             read INT,
             room INT
         )`); 
+        
         await db.close()
     }
 }
