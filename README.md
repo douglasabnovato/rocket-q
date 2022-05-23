@@ -18,7 +18,7 @@
 <br>
 
 <p align="center">
-  <img alt="Uma aplicação para compartilhar perguntas e respostas" src=".github/capa.png" width="100%">
+  <img alt="Uma aplicação para compartilhar perguntas e respostas" title="Rocket.Q" src="./.github/tela-4.jpg" width="100%">
 </p>
 
 ## 🚀 Tecnologias
@@ -73,6 +73,11 @@ Podemos ver mais detalhes do projeto através [desse link](https://www.notion.so
 ## 🔖 Layout
 
 Você pode visualizar o layout do projeto através [desse link](https://www.figma.com/community/file/1009821158959690135/Roquet.q). É necessário ter conta no [Figma](https://figma.com) para acessá-lo.
+
+- seguir o design
+<p align="center">
+  <img alt="Uma aplicação para compartilhar perguntas e respostas" src=".github/capa.png" width="400px">
+</p>
 
 ## :memo: Licença
 
