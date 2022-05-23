@@ -77,7 +77,19 @@ Você pode visualizar o layout do projeto através [desse link](https://www.figm
 - seguir o design
 <p align="center">
   <img alt="Uma aplicação para compartilhar perguntas e respostas" src=".github/capa.png" width="400px">
-</p>
+</p> 
+
+---
+
+### Próximo passo para frontend
+
+- [ ] 1. responsividade
+- [ ] 2. acessibilidade
+- [ ] 3. modo dark / light
+- [ ] 4. variação de cores
+- [ ] 5. hospedar aplicação
+
+---
 
 ## :memo: Licença
 
