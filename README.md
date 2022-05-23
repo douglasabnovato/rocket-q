@@ -1,5 +1,5 @@
 <h1 align="center">
-  <img alt="Rocket.Q" title="Rocket.Q" src=".github/rocketq.png" width="220px" />
+  <img alt="Uma aplicação para compartilhar perguntas e respostas" title="Rocket.Q" src=".github/rocketq.png" width="220px" />
 </h1>
 
 <p align="center">
@@ -18,7 +18,7 @@
 <br>
 
 <p align="center">
-  <img alt="Rocket.Q" src=".github/capa.png" width="100%">
+  <img alt="Uma aplicação para compartilhar perguntas e respostas" src=".github/capa.png" width="100%">
 </p>
 
 ## 🚀 Tecnologias
@@ -30,6 +30,33 @@ Esse projeto foi desenvolvido com as seguintes tecnologias:
 - NodeJS
 - Express
 - SQLite
+
+## 🎨 Layout - v1.0 - fluxo da aplicação e estrutura no bd
+
+- A home da aplicação podendo criar uma sala ou entrar em uma sala já existente
+<p align="center" style="display: flex; align-items: flex-start; justify-content: center;">
+  <img alt="Uma aplicação para compartilhar perguntas e respostas" title="Rocket.Q" src="./.github/tela-4.jpg" width="400px">
+</p> 
+
+- Se optar por criar a própria sala, criar uma senha.
+<p align="center" style="display: flex; align-items: flex-start; justify-content: center;">
+  <img alt="Uma aplicação para compartilhar perguntas e respostas" title="Rocket.Q" src="./.github/tela-3.jpg" width="400px">
+</p> 
+
+- Se optar por entrar em uma sala, inserir o código. Então verá as perguntas e poderá fazer outras.
+<p align="center" style="display: flex; align-items: flex-start; justify-content: center;">
+  <img alt="Uma aplicação para compartilhar perguntas e respostas" title="Rocket.Q" src="./.github/tela-1.jpg" width="400px">
+</p> 
+
+- Se for o criador da sala, poderá marcar como lida as perguntas.
+<p align="center" style="display: flex; align-items: flex-start; justify-content: center;">
+  <img alt="Uma aplicação para compartilhar perguntas e respostas" title="Rocket.Q" src="./.github/tela-2.jpg" width="400px">
+</p> 
+
+- Visualizando as questões no banco de dados
+<p align="center" style="display: flex; align-items: flex-start; justify-content: center;">
+  <img alt="Estrutura de bd da aplicação" title="Rocket.Q" src="./.github/tela-5.jpg" width="400px">
+</p> 
 
 ## 💻 Projeto
 
