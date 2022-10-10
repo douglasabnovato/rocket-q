@@ -1,6 +1,10 @@
-<h1 align="center">
-  <img alt="Uma aplicação para compartilhar perguntas e respostas" title="Rocket.Q" src=".github/rocketq.png" width="220px" />
-</h1>
+<h4 align="center"> 
+  Rocket.Q 🚀
+</h4> 
+
+<p align="center">
+  <img alt="Uma aplicação para compartilhar perguntas e respostas" title="Rocket.Q" src="./.github/tela-4.jpg" width="100%">
+</p>
 
 <p align="center">
   <a href="#-tecnologias">Tecnologias</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
@@ -17,9 +21,15 @@
 
 <br>
 
-<p align="center">
-  <img alt="Uma aplicação para compartilhar perguntas e respostas" title="Rocket.Q" src="./.github/tela-4.jpg" width="100%">
-</p>
+## 💻 Projeto
+
+O Rocket.Q é uma aplicação de interação através de perguntas, sendo possível criar uma sala para internautas anônimos fazerem perguntas e o criador da sala em posse de uma senha gerenciar essas perguntas e marcar como lidas.
+
+## 💻 Detalhes do Projeto
+
+- criar banco: `npm run init-db`
+- Beekeeper para conferir informações e estrutura do banco de dados
+
 
 ## 🚀 Tecnologias
 
@@ -58,14 +68,6 @@ Esse projeto foi desenvolvido com as seguintes tecnologias:
   <img alt="Estrutura de bd da aplicação" title="Rocket.Q" src="./.github/tela-5.jpg" width="400px">
 </p> 
 
-## 💻 Projeto
-
-O Rocket.Q é uma aplicação de interação através de perguntas, sendo possível criar uma sala para internautas anônimos fazerem perguntas e o criador da sala em posse de uma senha gerenciar essas perguntas e marcar como lidas.
-
-## 💻 Detalhes do Projeto
-- criar banco: `npm run init-db`
-- Beekeeper para conferir informações e estrutura do banco de dados
-
 ## 🔖 Detalhes no Notion
 
 Podemos ver mais detalhes do projeto através [desse link](https://www.notion.so/Mission-Discover-f103a00f5ca74e78ad4df757a142bbf7) no Notion.
@@ -98,3 +100,5 @@ Esse projeto está sob a licença MIT. Veja o arquivo [LICENSE](.github/LICENSE.
 ---  
 
 Feito com ❤️ por Douglas A B Novato 👋🏽 [Entre em contato!](https://www.linkedin.com/in/douglasabnovato/).
+
+Fonte do projeto: [NLW Together Edição 6 na trilha Mission: Discover da Rocketseat](https://github.com/maykbrito) 
