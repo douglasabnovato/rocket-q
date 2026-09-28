@@ -64,3 +64,7 @@
 .modal-wrapper .modal .buttons > .button{
     padding: 1.3rem 3.2rem;
 }
+
+.modal-wrapper[hidden]{
+    display: none;
+}

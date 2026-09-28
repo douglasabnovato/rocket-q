@@ -1,111 +1,119 @@
 <!DOCTYPE html>
+<html lang="pt-BR">
     <head>
-        <title>Rocket.Q - Perguntas e Respostas</title>
         <meta charset="UTF-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge"> 
-        <meta name="viewport" content="width=device-width, initial-scale=1.0"><!-- View Port --> 
-        <link rel="stylesheet" href="/styles/global.css"><!-- CSS -->
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Sala #<%= roomId %> · Rocket.Q</title>
+        <link rel="icon" href="/images/logo.svg" type="image/svg+xml">
+        <link rel="stylesheet" href="/styles/global.css">
         <link rel="stylesheet" href="/styles/room.css">
-        <link rel="stylesheet" href="/styles/modal.css"> 
-        <link rel="preconnect" href="https://fonts.gstatic.com"><!-- FONTS -->
+        <link rel="stylesheet" href="/styles/modal.css">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <link href="https://fonts.googleapis.com/css2?family=Open+Sans&family=Poppins:wght@400;500;700&display=swap" rel="stylesheet">
-        <script src="/scripts/main.js" defer type="module"></script><!-- SCRIPT -->
+        <script src="/scripts/main.js" defer type="module"></script>
     </head>
     <body>
         <div id="room" class="content">
             <header>
-                <a href="/">
-                    <img src="/images/logo.svg" alt="Rocket.Q Logo"/>
+                <a href="/" aria-label="Rocket.Q, página inicial">
+                    <img src="/images/logo.svg" alt="Rocket.Q" width="167" height="44">
                 </a>
                 <div class="buttons">
-                    <div class="button outlined" id="room-id" data-id="<%= roomId %>">
+                    <button type="button" class="button outlined" id="room-id" data-id="<%= roomId %>" aria-label="Copiar o código da sala <%= roomId %>">
                         #<%= roomId %>
-                        <img src="/images/copy.svg" alt="Copiar numero da sala"/>
-                    </div>
+                        <img src="/images/copy.svg" alt="" aria-hidden="true">
+                    </button>
                     <a href="/create-pass" class="button">
-                        <img src="/images/users-white.svg" alt="Criar uma sala">
-                        Criar Sala
+                        <img src="/images/users-white.svg" alt="" aria-hidden="true">
+                        Criar sala
                     </a>
                 </div>
-            </header> 
+            </header>
+            <p class="sr-only" id="copy-status" role="status" aria-live="polite"></p>
             <main>
-                <section id="question-form">
-                    <h2>Faça sua pergunta</h2>
+                <% if (success) { %>
+                    <p class="alert alert-success" role="status"><%= success %></p>
+                <% } %>
+                <% if (error) { %>
+                    <p class="alert alert-error" role="alert"><%= error %></p>
+                <% } %>
+                <section id="question-form" aria-labelledby="ask-title">
+                    <h1 id="ask-title">Faça sua pergunta</h1>
                     <form action="/question/create/<%= roomId %>" method="POST">
-                        <label class="sr-only" for-id="question">O que você quer perguntar?</label>
-                        <textarea name="question" id="question" placeholder="O que você quer perguntar?"></textarea>
+                        <label class="sr-only" for="question">O que você quer perguntar?</label>
+                        <textarea name="question" id="question" maxlength="500" required placeholder="O que você quer perguntar?" aria-describedby="anon-hint"></textarea>
                         <footer>
-                            <div>
-                                <img src="/images/lock.svg" alt="Cadeado">
+                            <div id="anon-hint">
+                                <img src="/images/lock.svg" alt="" aria-hidden="true">
                                 Esta pergunta é anônima
                             </div>
-                            <button>Enviar</button>
+                            <button type="submit">Enviar</button>
                         </footer>
                     </form>
-                </section> 
-                <section id="questions">
-                    <h2 class="sr-only">Perguntas da comunidade</h2>
-                    <div class="questions"> 
-                        <% if (isNoQuestions){ %>
+                </section>
+                <section id="questions" aria-labelledby="questions-title">
+                    <h2 class="sr-only" id="questions-title">Perguntas da comunidade</h2>
+                    <div class="questions">
+                        <% if (isNoQuestions) { %>
                             <%- include('parts/no-question') %>
-                        <% } %> 
-                        <% questions.forEach(question => { %>                            
-                            <div class="question-wrapper">
+                        <% } %>
+                        <% questions.forEach(question => { %>
+                            <article class="question-wrapper">
                                 <div class="question-content">
-                                    <div class="user">
-                                        <img src="/images/user.svg" alt="Avatar">
+                                    <div class="user" aria-hidden="true">
+                                        <img src="/images/user.svg" alt="">
                                     </div>
                                     <div class="question">
-                                        <p><%= question.title  %></p>
+                                        <p><%= question.title %></p>
                                     </div>
                                 </div>
                                 <div class="actions">
-                                    <a href="#" class="check" data-id="<%= question.id %>">
-                                        <img src="/images/check.svg" alt="Marcar como lida">
+                                    <button type="button" class="action check" data-id="<%= question.id %>">
+                                        <img src="/images/check.svg" alt="" aria-hidden="true">
                                         Marcar como lida
-                                    </a>
-                                    <a href="#" class="delete" data-id="<%= question.id %>">
-                                        <img src="/images/trash.svg" alt="Excluir">
+                                    </button>
+                                    <button type="button" class="action delete" data-id="<%= question.id %>">
+                                        <img src="/images/trash.svg" alt="" aria-hidden="true">
                                         Excluir
-                                    </a>
+                                    </button>
                                 </div>
-                            </div>
-                        <% });  %> 
+                            </article>
+                        <% }) %>
                         <% questionsRead.forEach(questionRead => { %>
-                            <div class="question-wrapper read">
+                            <article class="question-wrapper read">
                                 <div class="question-content">
-                                    <div class="user">
-                                        <img src="/images/user.svg" alt="Avatar">
+                                    <div class="user" aria-hidden="true">
+                                        <img src="/images/user.svg" alt="">
                                     </div>
                                     <div class="question">
-                                        <p><%= questionRead.title %></p>
+                                        <p><span class="sr-only">Lida: </span><%= questionRead.title %></p>
                                     </div>
                                 </div>
                                 <div class="actions">
-                                    <a href="#" class="delete" data-id="<%= questionRead.id %>">
-                                        <img src="/images/trash.svg" alt="Excluir">
+                                    <button type="button" class="action delete" data-id="<%= questionRead.id %>">
+                                        <img src="/images/trash.svg" alt="" aria-hidden="true">
                                         Excluir
-                                    </a>
+                                    </button>
                                 </div>
-                            </div>
-                        <% }); %> 
+                            </article>
+                        <% }) %>
                     </div>
-                </section> 
-            </main> 
-        </div> 
-        <div class="modal-wrapper"><!----- MODAL ------>
-            <div class="modal">
-                <h2>Excluir Pergunta</h2>
-                <p>Tem certeza que você deseja excluir esta pergunta?</p> 
+                </section>
+            </main>
+        </div>
+        <div class="modal-wrapper" hidden>
+            <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modal-title" aria-describedby="modal-description">
+                <h2 id="modal-title">Excluir pergunta</h2>
+                <p id="modal-description">Tem certeza que você deseja excluir esta pergunta?</p>
                 <form action="#" method="POST">
-                    <label class="sr-only" for-id="password">Digite sua senha admin</label>
-                    <input type="password" id="password" name="password" placeholder="Digite sua senha" /> 
+                    <label class="sr-only" for="password">Senha de administração da sala</label>
+                    <input type="password" id="password" name="password" autocomplete="current-password" required placeholder="Digite a senha da sala">
                     <div class="buttons">
-                        <div class="button grey cancel">Cancelar</div>
-                        <button class="red">Sim, excluir</button>
+                        <button type="button" class="button grey cancel">Cancelar</button>
+                        <button type="submit" class="red confirm">Sim, excluir</button>
                     </div>
-                </form> 
+                </form>
             </div>
-        </div> 
+        </div>
     </body>
 </html>

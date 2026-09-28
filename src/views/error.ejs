@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title><%= title %> · Rocket.Q</title>
+        <link rel="icon" href="/images/logo.svg" type="image/svg+xml">
+        <link rel="stylesheet" href="/styles/global.css">
+        <link rel="stylesheet" href="/styles/room.css">
+    </head>
+    <body>
+        <div id="error-page" class="content">
+            <header>
+                <a href="/" aria-label="Rocket.Q, página inicial">
+                    <img src="/images/logo.svg" alt="Rocket.Q" width="167" height="44">
+                </a>
+            </header>
+            <main class="error-page" role="alert">
+                <h1><%= title %></h1>
+                <p><%= message %></p>
+                <a href="/" class="button">Voltar para o início</a>
+            </main>
+        </div>
+    </body>
+</html>

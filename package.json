@@ -1,23 +1,30 @@
 {
   "name": "RocketQ",
   "version": "1.0.0",
-  "description": "Projeto desenvolvido para gerenciar perguntas anonimas de usuários direcionadas ao dono da página. Projeto desenvolvido na semana NLW Rocketseat na missão discover",
+  "description": "Salas de perguntas anônimas: quem apresenta cria a sala com senha, o público pergunta pelo código e o dono modera.",
   "main": "src/server.js",
   "scripts": {
-    "start": "nodemon .",
-    "init-db": "node src/db/init.js"
+    "start": "node src/server.js",
+    "dev": "nodemon src/server.js",
+    "init-db": "node src/db/init.js",
+    "test": "node --test"
   },
   "keywords": [],
-  "author": "Jakeliny Gracielly",
-  "license": "ISC",
+  "author": "Douglas A B Novato",
+  "license": "MIT",
   "dependencies": {
-    "ejs": "^3.1.6",
-    "express": "^4.17.1",
-    "node-gyp": "^8.3.0",
-    "sqlite": "^4.0.23",
-    "sqlite3": "^5.0.2"
+    "bcryptjs": "^2.4.3",
+    "better-sqlite3": "^12.11.1",
+    "ejs": "^3.1.10",
+    "express": "^4.22.3",
+    "express-rate-limit": "^7.5.1",
+    "helmet": "^8.3.0"
+  },
+  "engines": {
+    "node": ">=20"
   },
   "devDependencies": {
-    "nodemon": "^2.0.7"
+    "nodemon": "^3.1.14",
+    "supertest": "^7.3.0"
   }
 }

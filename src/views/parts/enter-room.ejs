@@ -1,23 +1,23 @@
-<section>
-    <h2>Entre como participante</h2>
+<section aria-labelledby="enter-title">
+    <h1 id="enter-title">Entre como participante</h1>
     <form action="/enterroom" method="POST">
-        <label class="sr-only" for="room-id">Código da sala</label>
-        <input name="roomId" type="number" id="room-id" placeholder="Código da sala">
-        <button>
-            <img src="images/enter-room.svg" alt="Entrar na sala">
+        <label class="sr-only" for="room-code">Código da sala (6 dígitos)</label>
+        <input name="roomId" type="text" id="room-code" inputmode="numeric" pattern="\d{1,6}" maxlength="6" autocomplete="off" required placeholder="Código da sala">
+        <button type="submit">
+            <img src="/images/enter-room.svg" alt="" aria-hidden="true">
             Entrar na sala
-         </button>
+        </button>
     </form>
-</section> 
-<div class="separator">
+</section>
+<div class="separator" aria-hidden="true">
     <div></div>
     <div>ou</div>
     <div></div>
-</div> 
-<section>
-     <h2>Crie sua própria sala de forma fácil</h2>
-     <a href="/create-pass" class="button outlined">
-        <img src="images/users.svg" alt="Criar Sala"> 
-        Criar Sala                      
-     </a>
+</div>
+<section aria-labelledby="create-title">
+    <h2 id="create-title">Crie sua própria sala de forma fácil</h2>
+    <a href="/create-pass" class="button outlined">
+        <img src="/images/users.svg" alt="" aria-hidden="true">
+        Criar sala
+    </a>
 </section>

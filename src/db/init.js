@@ -1,22 +1,10 @@
-const Database = require("./config")
+/*
+ * init.js · cria ou atualiza o banco (npm run init-db). Pode rodar várias vezes.
+ */
+const { openDatabase } = require('./config')
+const config = require('../config')
 
-const initDb = {
-    async init(){
-        const db = await Database() 
-
-        await db.exec(`CREATE TABLE rooms (
-            id INTEGER PRIMARY KEY,
-            pass TEXT
-        )`); 
-        await db.exec(`CREATE TABLE questions (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            title TEXT,
-            read INT,
-            room INT
-        )`); 
-        
-        await db.close()
-    }
-}
-
-initDb.init();  
+const db = openDatabase()
+console.log(`Banco pronto em ${config.databaseFile} (schema v${db.pragma('user_version', { simple: true })})`)
+db.close()
+/* fim de init.js */

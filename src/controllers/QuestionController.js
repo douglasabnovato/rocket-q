@@ -1,39 +1,44 @@
-const Database = require('../db/config')
+/*
+ * QuestionController · traduz HTTP para o QuestionService (Post/Redirect/Get).
+ */
+const { parseRoomId, parseQuestionId } = require('../lib/validation')
 
-module.exports = {
-    async index(req, res){
-        const db = await Database()
-        const roomId = req.params.room
-        const questionId = req.params.question
-        const action = req.params.action
-        const password = req.body.password 
-        const verifyRoom = await db.get(`SELECT * FROM rooms WHERE id = ${roomId}`)/* Verificar se a senha está correta */
-        
-        if(verifyRoom.pass == password){
-            if(action == "delete"){ 
-                await db.run(`DELETE FROM questions WHERE id = ${questionId}`) 
-            }else if(action == "check"){ 
-                await db.run(`UPDATE questions SET read = 1 WHERE id = ${questionId}`) 
+const RESULT = { check: 'marcada', delete: 'excluida' }
+
+/* Cria o controller com o serviço injetado. */
+function createQuestionController({ questionService }) {
+    return {
+        /* POST /question/create/:room */
+        create(req, res) {
+            const roomId = parseRoomId(req.params.room)
+            try {
+                questionService.ask(roomId, req.body.question)
+                res.redirect(303, `/room/${roomId}?ok=pergunta-enviada`)
+            } catch (error) {
+                if (error.code !== 'invalid_question') throw error
+                res.redirect(303, `/room/${roomId}?erro=pergunta`)
             }
-            res.redirect(`/room/${roomId}`)
-        } else{
-            res.render('passincorrect', {roomId: roomId})
-        } 
-    }, 
-    async create(req, res){
-        const db = await Database()
-        const question = req.body.question
-        const roomId = req.params.room
+        },
 
-        await db.run(`INSERT INTO questions(
-            title,
-            room,
-            read
-        )VALUES(
-            "${question}",
-            ${roomId},
-            0
-        )`) 
-        res.redirect(`/room/${roomId}`)
+        /* POST /question/:room/:question/:action */
+        async index(req, res, next) {
+            try {
+                const roomId = parseRoomId(req.params.room)
+                const questionId = parseQuestionId(req.params.question)
+                const { action } = req.params
+                try {
+                    await questionService.moderate(roomId, questionId, action, req.body.password)
+                    res.redirect(303, `/room/${roomId}?ok=${RESULT[action]}`)
+                } catch (error) {
+                    if (error.code !== 'wrong_password') throw error
+                    res.redirect(303, `/room/${roomId}?erro=senha`)
+                }
+            } catch (error) {
+                next(error)
+            }
+        }
     }
 }
+
+module.exports = createQuestionController
+/* fim de QuestionController */

@@ -1,37 +1,47 @@
+/*
+ * main.js · ações da sala: marcar como lida, excluir (com senha no diálogo) e copiar o código.
+ */
 import Modal from './modal.js'
 
 const modal = Modal()
+const modalTitle = document.querySelector('#modal-title')
+const modalDescription = document.querySelector('#modal-description')
+const modalButton = document.querySelector('.modal .confirm')
+const form = document.querySelector('.modal form')
+const roomButton = document.querySelector('#room-id')
+const copyStatus = document.querySelector('#copy-status')
+const roomId = roomButton.dataset.id
 
-const modalTitle = document.querySelector('.modal h2')
-const modalDescription = document.querySelector('.modal p')
-const modalButton = document.querySelector('.modal button')
-  
-const checkButtons = document.querySelectorAll(".actions a.check") //Pegar todos os botões que existe com a classe check
-
-checkButtons.forEach(button => {//adicionar a escuta 
-    button.addEventListener("click", handleClick)
-}) 
-
-const deleteButton = document.querySelectorAll(".actions a.delete")/*Quando o botão delete for clicado ele abre a modal */
-
-deleteButton.forEach(button => {
-    button.addEventListener("click", (event) => handleClick(event, false))
-})
-
-function handleClick(event, check = true){
-    event.preventDefault()
-    const text = check ? "Marcar como lida" : "Excluir"
-    const slug = check ? "check" : "delete"
-    const roomId = document.querySelector("#room-id").dataset.id
-    const questionId = event.target.dataset.id
-
-    const form = document.querySelector(".modal form")
-    form.setAttribute("action", `/question/${roomId}/${questionId}/${slug}`)
-
-    modalTitle.innerHTML= `${text} esta pergunta`
-    modalDescription.innerHTML= `Tem certeza que deseja ${text.toLowerCase()} esta pergunta?`
-    modalButton.innerHTML= `Sim, ${text.toLowerCase()}`
-    check ? modalButton.classList.remove("red") : modalButton.classList.add("red")
-     
-    modal.open()//abrir modal
+/* Prepara o diálogo para a ação escolhida; usa currentTarget para funcionar ao clicar no ícone. */
+function handleClick(event, check) {
+    const button = event.currentTarget
+    const text = check ? 'Marcar como lida' : 'Excluir'
+    const slug = check ? 'check' : 'delete'
+    form.setAttribute('action', `/question/${roomId}/${button.dataset.id}/${slug}`)
+    modalTitle.textContent = `${text} esta pergunta`
+    modalDescription.textContent = `Tem certeza que deseja ${text.toLowerCase()} esta pergunta?`
+    modalButton.textContent = `Sim, ${text.toLowerCase()}`
+    modalButton.classList.toggle('red', !check)
+    modal.open(button)
 }
+
+/* Copia o código da sala e anuncia o resultado para leitores de tela. */
+async function copyRoomCode() {
+    try {
+        await navigator.clipboard.writeText(roomId)
+        copyStatus.textContent = `Código ${roomId} copiado.`
+        roomButton.classList.add('copied')
+        setTimeout(() => roomButton.classList.remove('copied'), 1500)
+    } catch (error) {
+        copyStatus.textContent = `Não foi possível copiar. O código é ${roomId}.`
+    }
+}
+
+document.querySelectorAll('.actions .check').forEach((button) => {
+    button.addEventListener('click', (event) => handleClick(event, true))
+})
+document.querySelectorAll('.actions .delete').forEach((button) => {
+    button.addEventListener('click', (event) => handleClick(event, false))
+})
+roomButton.addEventListener('click', copyRoomCode)
+/* fim de main.js */

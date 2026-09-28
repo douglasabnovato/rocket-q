@@ -1,0 +1,20 @@
+# Blueprint do Render: serviço web Node gratuito com SQLite (better-sqlite3).
+# O disco do plano gratuito é temporário: as salas somem a cada reinício ou deploy.
+services:
+  - type: web
+    name: rocket-q
+    runtime: node
+    plan: free
+    branch: main
+    autoDeployTrigger: commit
+    buildCommand: npm ci
+    startCommand: npm start
+    healthCheckPath: /
+    envVars:
+      - key: NODE_VERSION
+        value: "22"
+      - key: TRUST_PROXY
+        value: "1"
+      - key: BCRYPT_COST
+        value: "10"
+# fim de render.yaml
