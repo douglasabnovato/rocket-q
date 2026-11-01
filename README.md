@@ -1,4 +1,4 @@
-> **Projeto de estudo.** Estado conferido em 30/10/2026: 1 endereço(s) citado(s) abaixo não responde(m). Detalhes em [docs/AVALIACAO.md](docs/AVALIACAO.md) e próximos passos em [docs/PLANO-ESTRATEGICO.md](docs/PLANO-ESTRATEGICO.md).
+> **Projeto de estudo.** Estado conferido em 01/11/2026: o endereço citado abaixo responde. Detalhes em [docs/AVALIACAO.md](docs/AVALIACAO.md) e próximos passos em [docs/PLANO-ESTRATEGICO.md](docs/PLANO-ESTRATEGICO.md).
 
 <h4 align="center"> 
   Rocket.Q 🚀
@@ -23,6 +23,15 @@
 </p>
 
 <br>
+
+## 🧠 O que aprendi
+
+> Proposta de 01/11/2026, escrita a partir do código e das dependências. Ajuste com a sua experiência.
+
+- Renderizar salas e perguntas no servidor com Express e EJS.
+- Proteger salas com senha usando `bcryptjs`.
+- Guardar dados em SQLite com `better-sqlite3`.
+- Limitar abuso com `express-rate-limit` e testar com `node --test`.
 
 ## 💻 Projeto
 
