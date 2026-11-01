@@ -14,7 +14,7 @@ Falhas de instalação de módulos nativos podem ser próprias do Node 24 no Win
 
 | Endereço citado no README | Situação |
 |---|---|
-| https://rocket-q.onrender.com | **sem resposta** |
+| https://rocket-q.onrender.com | responde (conferido em 01/11/2026) |
 
 ## Limites
 
