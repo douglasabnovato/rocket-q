@@ -1,4 +1,4 @@
-> **Projeto de estudo.** Estado conferido em 01/11/2026: o endereço citado abaixo responde. Detalhes em [docs/AVALIACAO.md](docs/AVALIACAO.md) e próximos passos em [docs/PLANO-ESTRATEGICO.md](docs/PLANO-ESTRATEGICO.md).
+> **Projeto de estudo.** Estado conferido em 06/11/2026: o endereço citado abaixo responde. Detalhes em [docs/AVALIACAO.md](docs/AVALIACAO.md) e próximos passos em [docs/PLANO-ESTRATEGICO.md](docs/PLANO-ESTRATEGICO.md).
 
 <h4 align="center"> 
   Rocket.Q 🚀
@@ -33,6 +33,26 @@
 - Guardar dados em SQLite com `better-sqlite3`.
 - Limitar abuso com `express-rate-limit` e testar com `node --test`.
 
+## Estado e próximos passos (ciclo de 03/11/2026)
+
+**O que foi feito** (06/11/2026, PRs #12 e #13)
+- Telas de sala inexistente e senha incorreta conferidas no navegador.
+- `nodemon` trocado por `node --watch`: `npm audit` sem alertas.
+- CI também nos PRs para `developer/**`.
+- `docs/MVP.md` revisto pela régua de estudo: 9 de 10 critérios aplicáveis, **Finalizado** (falta só proteger a `main`, que é do responsável).
+- Demonstração no ar: https://rocket-q.onrender.com respondeu 200 em 06/11/2026.
+
+**O que queremos fazer**
+- [#8](https://github.com/douglasabnovato/rocket-q/issues/8) Votar nas perguntas ("também quero saber").
+- [#9](https://github.com/douglasabnovato/rocket-q/issues/9) Moderação opcional antes de mostrar a pergunta.
+- [#10](https://github.com/douglasabnovato/rocket-q/issues/10) Atualizar a lista de perguntas sem recarregar.
+- [#11](https://github.com/douglasabnovato/rocket-q/issues/11) Teste de interface do fluxo da sala.
+- [#7](https://github.com/douglasabnovato/rocket-q/issues/7) Proteger a `main` (responsável).
+
+**Onde está a documentação**
+- [docs/MVP.md](docs/MVP.md): critérios e estado.
+- [docs/PLANO-DE-ACAO.md](docs/PLANO-DE-ACAO.md): seção "Ciclo de 03/11/2026", com pesquisa, backlog e engenharia.
+
 ## 💻 Projeto
 
 O Rocket.Q é uma aplicação de interação através de perguntas, sendo possível criar uma sala para internautas anônimos fazerem perguntas e o criador da sala em posse de uma senha gerenciar essas perguntas e marcar como lidas.
@@ -43,7 +63,7 @@ Pré-requisito: Node.js 20 ou superior.
 
 ```bash
 npm install
-npm run dev          # desenvolvimento com recarga automática (nodemon)
+npm run dev          # desenvolvimento com recarga automática (node --watch)
 npm start            # produção: node src/server.js
 npm test             # 14 testes de integração (node:test + supertest)
 npm run init-db      # opcional: cria/atualiza o banco; o servidor já faz isso ao subir

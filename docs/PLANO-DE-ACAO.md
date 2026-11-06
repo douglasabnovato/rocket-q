@@ -27,3 +27,58 @@ Priorização por **MoSCoW** e ordenação por **ganho ÷ esforço** (esforço: 
 - `npm test` verde (14/14).
 - axe-core sem violações WCAG 2.2 AA na página inicial, na sala (com mensagens) e na página de erro.
 - Nenhuma consulta SQL montada por concatenação (`grep -rn '\${' src/repositories` vazio).
+
+## Ciclo de 03/11/2026
+
+> Executado em 06/11/2026. Branch `feature/2026-11-06` → `developer/sprint-2026-11-12` → `main`. Nível: Estudo (N1), 10 critérios aplicáveis.
+
+### Produto
+
+**Problema e público.** Quem dá aula ou palestra quer receber perguntas do público sem expor quem pergunta, e organizar o que já respondeu.
+
+**Hipótese e meta.** Criar sala e registrar uma pergunta em menos de 1 minuto. Sem medição de uso (N1).
+
+**O que a pesquisa trouxe.**
+
+| Ideia | O que levamos para o projeto | Fonte |
+|---|---|---|
+| O público vota nas perguntas dos outros, e as mais votadas sobem | Virou a #8, com voto limitado por navegador e ordem por votos entre as não lidas | [Slido Community: moderar e gerenciar perguntas](https://community.slido.com/audience-q-a-42/use-moderation-and-manage-audience-questions-477) |
+| Moderação antes de publicar ajuda em públicos grandes e anônimos | Virou a #9, opcional por sala e desligada por padrão | [Webex: moderar perguntas no Slido](https://help.webex.com/nr8tx73/), [KAUST: guia do Slido](https://it.kaust.edu.sa/KB/slido/) |
+| Testar a entrada do público antes do evento | Percorremos no navegador a criação da sala, a pergunta e os erros; o teste automatizado do percurso virou a #11 | [KAUST: guia do Slido](https://it.kaust.edu.sa/KB/slido/) |
+
+**Backlog priorizado (impacto × esforço).**
+
+| Prioridade | Item | Impacto | Esforço | Destino |
+|---|---|---|---|---|
+| 1 | Conferir no navegador as telas de erro e senha incorreta | Médio | Baixo | Este ciclo |
+| 2 | Zerar os alertas do `npm audit` (trocar `nodemon` por `node --watch`) | Médio | Baixo | Este ciclo |
+| 3 | CI também nos PRs para `developer/**` | Alto | Baixo | Este ciclo |
+| 4 | Votos nas perguntas | Alto | Médio | Issue #8 |
+| 5 | Atualizar a lista sem recarregar | Médio | Médio | Issue #10 |
+| 6 | Teste de interface do fluxo | Médio | Médio | Issue #11 |
+| 7 | Moderação opcional | Médio | Médio | Issue #9 |
+| 8 | Proteger a `main` | Alto | Baixo | Responsável (#7) |
+
+**Fora do escopo.** Contas, WebSocket, votos negativos.
+
+### Engenharia
+
+**Arquitetura.** Express 4 com EJS no servidor, em camadas: rotas (`src/route.js`), controllers, services com as regras e repositories com `better-sqlite3` 12. As senhas das salas usam bcrypt; `src/db/migrations.js` converte o banco antigo. O Render publica a `main` com SQLite em disco temporário.
+
+**Riscos.**
+- No Render, as salas somem a cada deploy ou reinício.
+- Sem proteção na `main`, um push direto vai ao ar sem CI (#7).
+- Perguntas anônimas sem moderação (#9).
+
+**Qualidade.**
+- Testes: 14 com `node:test` e `supertest` (sala, senha, XSS, injeção de SQL, IDOR, 404, 429, cabeçalhos, migração).
+- Acessibilidade: foco visível, rótulos nos botões, status de cópia anunciado.
+- Segurança: bcrypt, limite de tentativas, helmet; `npm audit` sem alertas.
+
+**Definição de pronto.** `npm ci` e `npm test` passam; CI verde no PR; `docs/MVP.md` e README atualizados; link publicado responde.
+
+### Plano de ação
+
+**Este ciclo executa.** Itens 1 a 3 do backlog e a revisão do `MVP.md` pela régua N1 e pela decisão do critério 10.
+
+**Vira issue.** #8, #9, #10, #11 (agente); #7 (responsável).
