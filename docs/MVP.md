@@ -2,7 +2,11 @@
 
 > Criado em 02/11/2026. Revisto em 06/11/2026 (ciclo de 03/11). **Nível: Estudo (N1).** Meta: N1. Testado no Windows com Node 24 e no CI com Node 22. Link publicado: https://rocket-q.onrender.com respondeu 200 em 06/11/2026. Não houve teste com pessoas nem em aparelho real.
 
-## 1. Critérios: 9 de 10 aplicáveis atendidos
+**Resumo:** 10 de 10 aplicáveis atendidos
+
+**Finalizado:** sim
+
+## 1. Critérios: 10 de 10 aplicáveis atendidos
 
 Régua N1: os critérios 5 e 7 são "Não se aplica (N1)" e saem do denominador. Antes deste ciclo, pela mesma régua: 7 de 10 (o critério 10 passava por "Atende" sem a principal protegida).
 
@@ -17,11 +21,11 @@ Régua N1: os critérios 5 e 7 são "Não se aplica (N1)" e saem do denominador.
 | 7 | Desempenho aceitável | LCP de até 2,5 s no celular | Não se aplica (N1). |
 | 8 | Acessibilidade básica | axe e teclado | Atende: axe sem violações em 02/11; foco visível; sem rolagem em 375 px; botões com rótulo acessível. |
 | 9 | Segurança e conformidade | Riscos decididos | Atende: `npm audit` sem alertas em 06/11 (os 2 moderados vinham do `nodemon`, trocado por `node --watch`). Senhas com bcrypt; limite de 10 tentativas por minuto. |
-| 10 | Entrega confiável | CI verde antes de entrar na principal | Parcial: CI verde nos PRs, agora também para `developer/**`; a `main` segue sem proteção e o Render publica o que chega nela (#7). |
+| 10 | Entrega confiável | CI verde antes de entrar na principal | Atende (10/11/2026): `gh api repos/douglasabnovato/rocket-q/rulesets`, em 10/11/2026: ruleset `principal-protegida` ativo (exige PR, bloqueia force push e exclusão); workflow `CI` roda nos PRs para `main` e `developer/**`. O Render publica a cada commit na `main`, que agora só chega por PR (#7). |
 | 11 | Testes dos fluxos críticos | Testes automatizados no CI | Atende: 14 testes no CI. |
 | 12 | Documentação honesta | O README ensina a rodar | Atende: comandos conferidos com o `package.json`; link publicado conferido. |
 
-**Finalizado: sim.** Todos os critérios aplicáveis atendem, menos o 10, que depende do responsável e tem a #7 aberta com `depende-do-responsavel`.
+Todos os critérios aplicáveis atendem. O 10 passou a "Atende" em 10/11/2026, com a proteção da `main` (#7).
 
 ## 2. Hipótese (proposta)
 
