@@ -19,7 +19,7 @@ Priorização por **MoSCoW** e ordenação por **ganho ÷ esforço** (esforço: 
 | T13 | Should | 14 testes de integração (`node:test` + `supertest`) | — | C6 | Alto | 3 | ✅ Feito |
 | T14 | Could | Layout responsivo em uma coluna abaixo de 768 px | README item 1 | C3 | Médio | 1 | ✅ Feito |
 | T15 | Should | README com execução, rotas, deploy gratuito e licença coerente | D12 | C10 | Médio | 1 | ✅ Feito |
-| T16 | Must (usuário) | Apagar `src/views/passincorrect.ejs`; rodar `npm install` para instalar as novas dependências | — | C7 | Baixo | 1 | ⏳ Com você |
+| T16 | Must | Apagar `src/views/passincorrect.ejs`, que nenhuma rota renderiza | — | C7 | Baixo | 1 | ✅ Feito em 16/11/2026 |
 | T17 | Won't (agora) | Tempo real (SSE/WebSocket), expiração de salas, modo escuro | — | C1 | — | — | Roadmap |
 
 ## Definição de pronto
@@ -91,7 +91,7 @@ Priorização por **MoSCoW** e ordenação por **ganho ÷ esforço** (esforço: 
 
 **Problema e público.** Quem dá aula ou palestra quer receber perguntas do público sem expor quem pergunta, e organizar o que já respondeu.
 
-**Hipótese e meta.** Acreditamos que uma sala com código e senha deixa a pessoa criar a sala e registrar a primeira pergunta em menos de 1 minuto, sem ajuda. Saberemos quando o teste de ponta a ponta no navegador fizer esse percurso no CI e uma pessoa o repetir sem instrução.
+**Hipótese e meta.** Acreditamos que uma sala com código e senha deixa a pessoa criar a sala e registrar a primeira pergunta em menos de 1 minuto, sem ajuda. Saberemos quando o teste de ponta a ponta no navegador fizer esse percurso (criar, perguntar, moderar com a senha) no CI a cada PR. Em N1 não há medição com pessoas.
 
 **O que a análise achou.**
 - O `MVP.md` dava "Atende" aos critérios 3 e 8 sem teste no navegador nem axe no CI, que é o que a régua pede.
@@ -116,9 +116,10 @@ Priorização por **MoSCoW** e ordenação por **ganho ÷ esforço** (esforço: 
 | 2 | Critério 9 pela regra do Dependabot desligado | Médio | Baixo | Este ciclo |
 | 3 | Teste Playwright do fluxo com axe e teclado no CI (#11) | Alto | Médio | Este ciclo |
 | 4 | Atualizar a lista de perguntas sem recarregar (#10) | Médio | Médio | Este ciclo |
-| 5 | Publicar pelo Blueprint e conferir o endereço | Alto | Baixo | Responsável (issue nova) |
-| 6 | Ligar os alertas do Dependabot | Médio | Baixo | Responsável (issue nova) |
-| 7 | Versões maiores: Express 5, EJS, `bcryptjs` 3, `better-sqlite3` 13, `express-rate-limit` 8 | Médio | Médio | Issue nova |
+| 5 | Publicar pelo Blueprint e conferir o endereço | Alto | Baixo | Responsável (#17) |
+| 6 | Ligar os alertas do Dependabot | Médio | Baixo | Responsável (#18) |
+| 7 | Versões maiores: Express 5, EJS, `bcryptjs` 3, `better-sqlite3` 13, `express-rate-limit` 8 | Médio | Médio | #19 |
+| 8a | Exigir o check `e2e` no ruleset da `main` | Médio | Baixo | Responsável (#20) |
 | 8 | Votos (#8) e moderação opcional (#9) | Alto | Médio | Issues abertas |
 
 **Fora do escopo.** Contas, WebSocket, votos negativos, tema escuro.
@@ -133,7 +134,7 @@ Priorização por **MoSCoW** e ordenação por **ganho ÷ esforço** (esforço: 
 - O endereço publicado não é deste código até o responsável aplicar o Blueprint.
 
 **Qualidade.**
-- Testes: os 14 de integração seguem; entram testes da rota JSON e o teste Playwright (desktop e celular de 375 px).
+- Testes: os 14 de integração seguem e entram 4 da rota JSON e da sala (18 no total); no navegador, 5 testes Playwright (4 a 1280 px e 1 a 375 px).
 - Acessibilidade: axe no Playwright, Tab, Esc e foco de volta no diálogo. O app não tem tema escuro próprio (nenhum `prefers-color-scheme` no CSS); por isso não há projeto escuro, e sim um de celular.
 - Segurança: `npm audit --omit=dev` e os alertas do Dependabot (desligados, engenharia#33).
 
@@ -143,4 +144,4 @@ Priorização por **MoSCoW** e ordenação por **ganho ÷ esforço** (esforço: 
 
 **Este ciclo executa.** Itens 1 a 4 do backlog.
 
-**Vira issue.** Itens 5 a 7 (os dois primeiros com `depende-do-responsavel`); #8 e #9 seguem abertas.
+**Vira issue.** #17, #18 e #20 (com `depende-do-responsavel`) e #19; #8 e #9 seguem abertas. Também neste ciclo: a view `passincorrect.ejs`, que nada renderizava, saiu (T16).
