@@ -39,7 +39,8 @@
 - Telas de sala inexistente e senha incorreta conferidas no navegador.
 - `nodemon` trocado por `node --watch`: `npm audit` sem alertas.
 - CI também nos PRs para `developer/**`.
-- `docs/MVP.md` revisto pela régua de estudo: 9 de 10 critérios aplicáveis, **Finalizado** (falta só proteger a `main`, que é do responsável).
+- `docs/MVP.md` revisto pela régua de estudo: 10 de 10 critérios aplicáveis em 10/11/2026, **Finalizado**.
+- `main` protegida pelo ruleset `principal-protegida` desde 10/11/2026: só recebe mudanças por PR, e o Render publica só o que entrou assim.
 - Demonstração no ar: https://rocket-q.onrender.com respondeu 200 em 06/11/2026.
 
 **O que queremos fazer**
@@ -47,7 +48,6 @@
 - [#9](https://github.com/douglasabnovato/rocket-q/issues/9) Moderação opcional antes de mostrar a pergunta.
 - [#10](https://github.com/douglasabnovato/rocket-q/issues/10) Atualizar a lista de perguntas sem recarregar.
 - [#11](https://github.com/douglasabnovato/rocket-q/issues/11) Teste de interface do fluxo da sala.
-- [#7](https://github.com/douglasabnovato/rocket-q/issues/7) Proteger a `main` (responsável).
 
 **Onde está a documentação**
 - [docs/MVP.md](docs/MVP.md): critérios e estado.
