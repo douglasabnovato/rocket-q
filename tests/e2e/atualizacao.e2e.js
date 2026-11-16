@@ -59,6 +59,18 @@ test('pergunta de outra pessoa aparece sem recarregar e é anunciada', async ({ 
     await expect(page.locator('article.question-wrapper')).toHaveCount(2)
     await expect(page.locator('#questions-status')).toHaveText('1 pergunta nova.')
 
+    // Sem rede, a volta falha em silêncio: a lista fica como está e a página não quebra.
+    const erros = []
+    page.on('pageerror', (erro) => erros.push(erro.message))
+    await page.route('**/questions.json', (route) => route.abort('internetdisconnected'))
+    await request.post(`/question/create/${codigo}`, { form: { question: 'Terceira pergunta' }, maxRedirects: 0 })
+    await page.clock.runFor(15_000)
+    await expect(page.locator('article.question-wrapper')).toHaveCount(2)
+    await page.unroute('**/questions.json')
+    await page.clock.runFor(15_000)
+    await expect(page.locator('article.question-wrapper')).toHaveCount(3)
+    expect(erros).toEqual([])
+
     const { violations } = await new AxeBuilder({ page }).withTags(['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa', 'wcag22aa']).analyze()
     expect(violations.map((v) => v.id)).toEqual([])
 })
