@@ -41,13 +41,13 @@
 - 16/11/2026: o README deixou de citar `https://rocket-q.onrender.com` como demonstração. O endereço responde, mas serve outro HTML, que não é o da `main` (#17).
 - 10/11/2026, PRs #14 e #15: `main` protegida pelo ruleset `principal-protegida`.
 - 06/11/2026, PRs #12 e #13: `nodemon` trocado por `node --watch` (`npm audit` sem alertas) e CI nos PRs para `developer/**`.
-- `docs/MVP.md`: 9 de 10 critérios aplicáveis em 16/11/2026, **Finalizado** (o critério 9 depende de ligar os alertas do Dependabot, #18).
+- `docs/MVP.md`: 10 de 10 critérios aplicáveis em 16/11/2026, **Finalizado**. O critério 9 atende desde 16/11/2026: com os alertas do Dependabot ligados (#18), há 0 alertas abertos e o `npm audit --omit=dev` dá 0.
 
 **O que queremos fazer**
 - [#8](https://github.com/douglasabnovato/rocket-q/issues/8) Votar nas perguntas ("também quero saber").
 - [#9](https://github.com/douglasabnovato/rocket-q/issues/9) Moderação opcional antes de mostrar a pergunta.
 - [#19](https://github.com/douglasabnovato/rocket-q/issues/19) Atualizar as dependências para as versões maiores atuais.
-- Com o responsável: [#17](https://github.com/douglasabnovato/rocket-q/issues/17) publicar pelo Blueprint do Render, [#18](https://github.com/douglasabnovato/rocket-q/issues/18) ligar os alertas do Dependabot e [#20](https://github.com/douglasabnovato/rocket-q/issues/20) exigir o check `e2e` na `main`.
+- Com o responsável: [#17](https://github.com/douglasabnovato/rocket-q/issues/17) publicar pelo Blueprint do Render, [#18](https://github.com/douglasabnovato/rocket-q/issues/18) ligar os alertas do Dependabot (ligados em 16/11/2026, 0 alertas abertos; a issue fica para ele fechar) e [#20](https://github.com/douglasabnovato/rocket-q/issues/20) exigir o check `e2e` na `main`.
 
 **Onde está a documentação**
 - [docs/MVP.md](docs/MVP.md): critérios, evidências e estado.
