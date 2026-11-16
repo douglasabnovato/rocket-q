@@ -23,6 +23,7 @@ function createRouter({ roomController, questionController }) {
 
     route.post('/create-room', sensitiveLimit, roomController.create)
     route.get('/room/:room', roomController.open)
+    route.get('/room/:room/questions.json', roomController.questionsJson)
     route.post('/enterroom', roomController.enter)
 
     route.post('/question/create/:room', questionController.create)

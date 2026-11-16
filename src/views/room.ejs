@@ -30,6 +30,7 @@
                 </div>
             </header>
             <p class="sr-only" id="copy-status" role="status" aria-live="polite"></p>
+            <p class="sr-only" id="questions-status" role="status" aria-live="polite"></p>
             <main>
                 <% if (success) { %>
                     <p class="alert alert-success" role="status"><%= success %></p>
@@ -58,7 +59,7 @@
                             <%- include('parts/no-question') %>
                         <% } %>
                         <% questions.forEach(question => { %>
-                            <article class="question-wrapper">
+                            <article class="question-wrapper" data-id="<%= question.id %>">
                                 <div class="question-content">
                                     <div class="user" aria-hidden="true">
                                         <img src="/images/user.svg" alt="">
@@ -80,7 +81,7 @@
                             </article>
                         <% }) %>
                         <% questionsRead.forEach(questionRead => { %>
-                            <article class="question-wrapper read">
+                            <article class="question-wrapper read" data-id="<%= questionRead.id %>">
                                 <div class="question-content">
                                     <div class="user" aria-hidden="true">
                                         <img src="/images/user.svg" alt="">

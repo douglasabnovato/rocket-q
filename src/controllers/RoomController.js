@@ -44,6 +44,20 @@ function createRoomController({ roomService, questionService }) {
             })
         },
 
+        /* GET /room/:room/questions.json · a lista que a página consulta para se atualizar */
+        questionsJson(req, res, next) {
+            try {
+                const roomId = parseRoomId(req.params.room)
+                const { unread, read } = questionService.listForRoom(roomId)
+                const toJson = (question) => ({ id: question.id, title: question.title })
+                res.set('Cache-Control', 'no-store')
+                res.json({ roomId, unread: unread.map(toJson), read: read.map(toJson) })
+            } catch (error) {
+                if (error.status !== 404) return next(error)
+                res.status(404).json({ erro: 'Sala não encontrada.' })
+            }
+        },
+
         /* POST /enterroom */
         enter(req, res) {
             try {
