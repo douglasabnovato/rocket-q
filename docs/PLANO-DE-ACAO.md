@@ -82,3 +82,65 @@ Priorização por **MoSCoW** e ordenação por **ganho ÷ esforço** (esforço: 
 **Este ciclo executa.** Itens 1 a 3 do backlog e a revisão do `MVP.md` pela régua N1 e pela decisão do critério 10.
 
 **Vira issue.** #8, #9, #10, #11 (agente); #7 (responsável).
+
+## Ciclo de 16/11/2026
+
+> Executado em 16/11/2026. Branch `feature/2026-11-16` → `developer/sprint-2026-11-19` → `main`. Nível: Estudo (N1), 10 critérios aplicáveis. O PR #15 (sprint de 12/11) já está na `main`.
+
+### Produto
+
+**Problema e público.** Quem dá aula ou palestra quer receber perguntas do público sem expor quem pergunta, e organizar o que já respondeu.
+
+**Hipótese e meta.** Acreditamos que uma sala com código e senha deixa a pessoa criar a sala e registrar a primeira pergunta em menos de 1 minuto, sem ajuda. Saberemos quando o teste de ponta a ponta no navegador fizer esse percurso no CI e uma pessoa o repetir sem instrução.
+
+**O que a análise achou.**
+- O `MVP.md` dava "Atende" aos critérios 3 e 8 sem teste no navegador nem axe no CI, que é o que a régua pede.
+- O critério 9 estava "Atende" só pelo `npm audit`. Os alertas do Dependabot estão desligados (a API responde 403).
+- `https://rocket-q.onrender.com` responde 200, mas não serve este código: o HTML tem outro `title` (`Criar Sala - Rocket.Q`), outro campo (`type="number" id="room-id"`), e a resposta traz `x-powered-by: Express` sem os cabeçalhos do `helmet`. O app daqui desliga o `x-powered-by` e manda CSP. O README chamava esse endereço de "Demonstração".
+
+**O que a pesquisa trouxe.**
+
+| Ideia | O que levamos para o projeto | Fonte |
+|---|---|---|
+| O Playwright sobe o servidor antes dos testes pelo `webServer` e espera a URL responder | O teste de ponta a ponta sobe o `node src/server.js` com um SQLite descartável, numa porta própria | [Playwright: web server](https://playwright.dev/docs/test-webserver) |
+| O `@axe-core/playwright` roda o axe na página aberta, com as regras WCAG por etiqueta | axe com `wcag2a`, `wcag2aa`, `wcag21aa` e `wcag22aa` na entrada, na criação, na sala e no diálogo | [Playwright: testes de acessibilidade](https://playwright.dev/docs/accessibility-testing) |
+| O relógio do Playwright avança o tempo sem esperar | A atualização da lista a cada 15 s é testada com `page.clock`, sem `sleep` | [Playwright: clock](https://playwright.dev/docs/clock) |
+| `role="status"` anuncia mudanças sem tirar o foco de quem lê | O aviso "1 pergunta nova" usa `role="status"` | [MDN: status role](https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Reference/Roles/status_role) |
+| O serviço gratuito do Render dorme após 15 min e o disco é apagado; o Blueprint descreve o serviço em `render.yaml` | O `render.yaml` segue valendo; o `DEPLOY.md` pede para conferir o endereço real, que pode ganhar um sufixo | [Render: free](https://render.com/docs/free), [Render: Blueprint](https://render.com/docs/blueprint-spec) |
+
+**Backlog priorizado (impacto × esforço).**
+
+| Prioridade | Item | Impacto | Esforço | Destino |
+|---|---|---|---|---|
+| 1 | Tirar do README e do `MVP.md` o endereço que não serve este código | Alto | Baixo | Este ciclo |
+| 2 | Critério 9 pela regra do Dependabot desligado | Médio | Baixo | Este ciclo |
+| 3 | Teste Playwright do fluxo com axe e teclado no CI (#11) | Alto | Médio | Este ciclo |
+| 4 | Atualizar a lista de perguntas sem recarregar (#10) | Médio | Médio | Este ciclo |
+| 5 | Publicar pelo Blueprint e conferir o endereço | Alto | Baixo | Responsável (issue nova) |
+| 6 | Ligar os alertas do Dependabot | Médio | Baixo | Responsável (issue nova) |
+| 7 | Versões maiores: Express 5, EJS, `bcryptjs` 3, `better-sqlite3` 13, `express-rate-limit` 8 | Médio | Médio | Issue nova |
+| 8 | Votos (#8) e moderação opcional (#9) | Alto | Médio | Issues abertas |
+
+**Fora do escopo.** Contas, WebSocket, votos negativos, tema escuro.
+
+### Engenharia
+
+**Arquitetura.** Express 4 com EJS no servidor, em camadas: rotas, controllers, services e repositories com `better-sqlite3`. Nova rota de leitura `GET /room/:room/questions.json`, sem senha, que devolve só id, texto e estado das perguntas (o mesmo que a página já mostra a quem tem o código). O navegador consulta a rota a cada 15 s e troca a lista quando algo mudou.
+
+**Riscos.**
+- O teste de ponta a ponta usa o limite de 10 tentativas por minuto; o percurso faz menos que isso.
+- A consulta a cada 15 s soma requisições no serviço gratuito; ela para quando a aba fica oculta.
+- O endereço publicado não é deste código até o responsável aplicar o Blueprint.
+
+**Qualidade.**
+- Testes: os 14 de integração seguem; entram testes da rota JSON e o teste Playwright (desktop e celular de 375 px).
+- Acessibilidade: axe no Playwright, Tab, Esc e foco de volta no diálogo. O app não tem tema escuro próprio (nenhum `prefers-color-scheme` no CSS); por isso não há projeto escuro, e sim um de celular.
+- Segurança: `npm audit --omit=dev` e os alertas do Dependabot (desligados, engenharia#33).
+
+**Definição de pronto.** `npm test` e `npm run test:e2e` passam; jobs `raiz` e `e2e` verdes no PR; revisão independente do diff; `MVP.md` e README atualizados.
+
+### Plano de ação
+
+**Este ciclo executa.** Itens 1 a 4 do backlog.
+
+**Vira issue.** Itens 5 a 7 (os dois primeiros com `depende-do-responsavel`); #8 e #9 seguem abertas.
