@@ -60,7 +60,7 @@ O Rocket.Q é uma aplicação de interação através de perguntas, sendo possí
 
 ## ▶️ Como executar
 
-Pré-requisito: Node.js 20 ou superior.
+Pré-requisito: Node.js 20 ou superior para rodar o app; 22.12 ou superior para o teste no navegador (`@axe-core/playwright` pede essa versão). O CI usa o Node 22.
 
 ```bash
 npm install
@@ -68,7 +68,7 @@ npm run dev          # desenvolvimento com recarga automática (node --watch)
 npm start            # produção: node src/server.js
 npm test             # 18 testes de integração (node:test + supertest)
 npx playwright install chromium   # uma vez, para o teste no navegador
-npm run test:e2e     # fluxo no navegador com Playwright e axe (sobe o servidor sozinho, porta 3471)
+npm run test:e2e     # fluxo no navegador com Playwright e axe (sobe o servidor sozinho, porta 3471; outra com E2E_PORT=3500)
 npm run init-db      # opcional: cria/atualiza o banco; o servidor já faz isso ao subir
 ```
 
