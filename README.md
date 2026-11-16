@@ -1,4 +1,4 @@
-> **Projeto de estudo.** Estado conferido em 06/11/2026: o endereço citado abaixo responde. Detalhes em [docs/AVALIACAO.md](docs/AVALIACAO.md) e próximos passos em [docs/PLANO-ESTRATEGICO.md](docs/PLANO-ESTRATEGICO.md).
+> **Projeto de estudo (N1).** Estado conferido em 16/11/2026: roda localmente seguindo este README, com testes no CI. Ainda não há link publicado deste código (#17). Estado em [docs/MVP.md](docs/MVP.md).
 
 <h4 align="center"> 
   Rocket.Q 🚀
@@ -33,25 +33,26 @@
 - Guardar dados em SQLite com `better-sqlite3`.
 - Limitar abuso com `express-rate-limit` e testar com `node --test`.
 
-## Estado e próximos passos (ciclo de 03/11/2026)
+## Estado e próximos passos (ciclo de 16/11/2026)
 
-**O que foi feito** (06/11/2026, PRs #12 e #13)
-- Telas de sala inexistente e senha incorreta conferidas no navegador.
-- `nodemon` trocado por `node --watch`: `npm audit` sem alertas.
-- CI também nos PRs para `developer/**`.
-- `docs/MVP.md` revisto pela régua de estudo: 10 de 10 critérios aplicáveis em 10/11/2026, **Finalizado**.
-- `main` protegida pelo ruleset `principal-protegida` desde 10/11/2026: só recebe mudanças por PR, e o Render publica só o que entrou assim.
-- Demonstração no ar: https://rocket-q.onrender.com respondeu 200 em 06/11/2026.
+**O que foi feito**
+- 16/11/2026, PR [#16](https://github.com/douglasabnovato/rocket-q/pull/16): teste do fluxo no navegador (Playwright) com axe e teclado, no job `e2e` do CI (#11).
+- 16/11/2026, PR [#16](https://github.com/douglasabnovato/rocket-q/pull/16): a lista de perguntas se atualiza a cada 15 s sem recarregar e anuncia "1 pergunta nova." (#10).
+- 16/11/2026: o README deixou de citar `https://rocket-q.onrender.com` como demonstração. O endereço responde, mas serve outro HTML, que não é o da `main` (#17).
+- 10/11/2026, PRs #14 e #15: `main` protegida pelo ruleset `principal-protegida`.
+- 06/11/2026, PRs #12 e #13: `nodemon` trocado por `node --watch` (`npm audit` sem alertas) e CI nos PRs para `developer/**`.
+- `docs/MVP.md`: 9 de 10 critérios aplicáveis em 16/11/2026, **Finalizado** (o critério 9 depende de ligar os alertas do Dependabot, #18).
 
 **O que queremos fazer**
 - [#8](https://github.com/douglasabnovato/rocket-q/issues/8) Votar nas perguntas ("também quero saber").
 - [#9](https://github.com/douglasabnovato/rocket-q/issues/9) Moderação opcional antes de mostrar a pergunta.
-- [#10](https://github.com/douglasabnovato/rocket-q/issues/10) Atualizar a lista de perguntas sem recarregar.
-- [#11](https://github.com/douglasabnovato/rocket-q/issues/11) Teste de interface do fluxo da sala.
+- [#19](https://github.com/douglasabnovato/rocket-q/issues/19) Atualizar as dependências para as versões maiores atuais.
+- Com o responsável: [#17](https://github.com/douglasabnovato/rocket-q/issues/17) publicar pelo Blueprint do Render, [#18](https://github.com/douglasabnovato/rocket-q/issues/18) ligar os alertas do Dependabot e [#20](https://github.com/douglasabnovato/rocket-q/issues/20) exigir o check `e2e` na `main`.
 
 **Onde está a documentação**
-- [docs/MVP.md](docs/MVP.md): critérios e estado.
-- [docs/PLANO-DE-ACAO.md](docs/PLANO-DE-ACAO.md): seção "Ciclo de 03/11/2026", com pesquisa, backlog e engenharia.
+- [docs/MVP.md](docs/MVP.md): critérios, evidências e estado.
+- [docs/PLANO-DE-ACAO.md](docs/PLANO-DE-ACAO.md): seção "Ciclo de 16/11/2026", com análise, pesquisa, backlog e engenharia.
+- [docs/DEPLOY.md](docs/DEPLOY.md): passo a passo da publicação no Render.
 
 ## 💻 Projeto
 
@@ -59,13 +60,15 @@ O Rocket.Q é uma aplicação de interação através de perguntas, sendo possí
 
 ## ▶️ Como executar
 
-Pré-requisito: Node.js 20 ou superior.
+Pré-requisito: Node.js 20 ou superior para rodar o app; 22.12 ou superior para o teste no navegador (`@axe-core/playwright` pede essa versão). O CI usa o Node 22.
 
 ```bash
 npm install
 npm run dev          # desenvolvimento com recarga automática (node --watch)
 npm start            # produção: node src/server.js
-npm test             # 14 testes de integração (node:test + supertest)
+npm test             # 18 testes de integração (node:test + supertest)
+npx playwright install chromium   # uma vez, para o teste no navegador
+npm run test:e2e     # fluxo no navegador com Playwright e axe (sobe o servidor sozinho, porta 3471; outra com E2E_PORT=3500)
 npm run init-db      # opcional: cria/atualiza o banco; o servidor já faz isso ao subir
 ```
 
@@ -89,12 +92,13 @@ O banco antigo (senha em texto puro) é migrado automaticamente na primeira subi
 | POST | `/create-room` | Cria a sala (senha de 6 a 72 caracteres) |
 | POST | `/enterroom` | Valida o código e abre a sala |
 | GET | `/room/:room` | Perguntas da sala (não lidas primeiro) |
+| GET | `/room/:room/questions.json` | Mesma lista em JSON (só id e texto), que a sala consulta a cada 15 s |
 | POST | `/question/create/:room` | Envia pergunta anônima (1 a 500 caracteres) |
 | POST | `/question/:room/:question/:action` | `check` ou `delete`, exige a senha da sala |
 
 ### Hospedagem gratuita
 
-**Demonstração:** https://rocket-q.onrender.com
+Ainda sem link publicado deste código: a publicação pelo Blueprint é do responsável (#17).
 
 - **Render (web service free)**, configurado em `render.yaml`: build `npm ci`, start `npm start`, `TRUST_PROXY=1`. O serviço dorme após 15 min sem acesso (~1 min para acordar) e o disco é apagado a cada deploy/reinício, então as salas são temporárias.
 - **alwaysdata (plano gratuito, 100 MB):** alternativa com disco persistente, se as salas precisarem durar.
@@ -123,7 +127,7 @@ Esse projeto foi desenvolvido com as seguintes tecnologias:
 - Node.js 20+ e Express 4
 - SQLite com `better-sqlite3`
 - `bcryptjs`, `helmet` e `express-rate-limit`
-- Testes com `node:test` e `supertest`
+- Testes com `node:test` e `supertest`; no navegador, Playwright com `@axe-core/playwright`
 
 ## 🎨 Layout - v1.0 - fluxo da aplicação e estrutura no bd
 

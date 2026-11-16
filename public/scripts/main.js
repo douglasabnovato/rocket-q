@@ -1,7 +1,9 @@
 /*
- * main.js · ações da sala: marcar como lida, excluir (com senha no diálogo) e copiar o código.
+ * main.js · ações da sala: marcar como lida, excluir (com senha no diálogo), copiar o código
+ * e atualizar a lista sem recarregar.
  */
 import Modal from './modal.js'
+import iniciarAtualizacao from './questions-live.js'
 
 const modal = Modal()
 const modalTitle = document.querySelector('#modal-title')
@@ -11,10 +13,10 @@ const form = document.querySelector('.modal form')
 const roomButton = document.querySelector('#room-id')
 const copyStatus = document.querySelector('#copy-status')
 const roomId = roomButton.dataset.id
+const questionList = document.querySelector('#questions .questions')
 
-/* Prepara o diálogo para a ação escolhida; usa currentTarget para funcionar ao clicar no ícone. */
-function handleClick(event, check) {
-    const button = event.currentTarget
+/* Prepara o diálogo para a ação escolhida no botão clicado. */
+function handleClick(button, check) {
     const text = check ? 'Marcar como lida' : 'Excluir'
     const slug = check ? 'check' : 'delete'
     form.setAttribute('action', `/question/${roomId}/${button.dataset.id}/${slug}`)
@@ -37,11 +39,18 @@ async function copyRoomCode() {
     }
 }
 
-document.querySelectorAll('.actions .check').forEach((button) => {
-    button.addEventListener('click', (event) => handleClick(event, true))
-})
-document.querySelectorAll('.actions .delete').forEach((button) => {
-    button.addEventListener('click', (event) => handleClick(event, false))
+/* Um ouvinte só na lista: vale também para as perguntas que chegam pela atualização. */
+questionList.addEventListener('click', (event) => {
+    const button = event.target.closest('.actions .action')
+    if (!button) return
+    handleClick(button, button.classList.contains('check'))
 })
 roomButton.addEventListener('click', copyRoomCode)
+
+iniciarAtualizacao({
+    roomId,
+    lista: questionList,
+    aviso: document.querySelector('#questions-status'),
+    dialogoAberto: () => !document.querySelector('.modal-wrapper').hidden
+})
 /* fim de main.js */

@@ -3,3 +3,5 @@ src/db/rocketq.sqlite
 src/db/rocketq.sqlite-*
 *.sqlite
 .env
+/test-results
+/playwright-report

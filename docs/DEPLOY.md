@@ -26,45 +26,48 @@ Publicar um app Node (Express + EJS + SQLite) com senha de sala em bcrypt e limi
 | Mudança | Arquivo | Por quê |
 |---|---|---|
 | Blueprint do serviço web | `render.yaml` | Infraestrutura como código, com `TRUST_PROXY=1` já definido |
-| Seção de hospedagem com link e limitações | `README.md` | Quem visita sabe o que esperar |
+| Seção de hospedagem com as limitações, sem link até a #17 | `README.md` | Quem visita sabe o que esperar |
 
-### Verificação feita antes da entrega
+### Estado em 16/11/2026
 
-- `npm ci` limpo, 14 testes passando (`node --test`), `npm audit --omit=dev` sem vulnerabilidades.
-- Servidor iniciado em modo produção com `TRUST_PROXY=1` respondendo 200 na página inicial.
+- `https://rocket-q.onrender.com` responde 200, mas não serve o código da `main`: o `title` é `Criar Sala - Rocket.Q` (na `main`: `Entrar numa sala · Rocket.Q`) e a resposta traz `x-powered-by: Express`, sem os cabeçalhos do `helmet`. Pode ser um serviço antigo ou de outra conta. Por isso o README não cita esse endereço. O passo a passo para o responsável está na #17.
+- Local, em 16/11/2026: `npm ci`, `npm test` (18 de 18), `npm run test:e2e` (5 de 5, com o servidor real) e `npm audit --omit=dev` (0 vulnerabilidades).
 
 ## 3. Solução (passo a passo)
 
+Criar conta, serviço ou mudar configuração no Render é do responsável. Nenhum passo pede segredo: o `render.yaml` só tem `NODE_VERSION`, `TRUST_PROXY` e `BCRYPT_COST`.
+
 ### Etapa 1 · Validar localmente (Git Bash)
 
-1. `cd /c/ambiente-projeto/ser-mvp/rocket-q`
-2. `npm ci`
-3. `npm test` (14 testes)
+1. Na pasta do clone: `npm ci`
+2. `npm test` (18 testes)
+3. `npx playwright install chromium` (uma vez) e `npm run test:e2e` (5 testes no navegador)
 4. `npm start` e abrir http://localhost:3000
 
-### Etapa 2 · Subir para o GitHub
+### Etapa 2 · Conferir se já existe um serviço
 
-1. `git rm src/views/passincorrect.ejs` (substituída pela mensagem dentro da sala)
-2. `git status` (não podem aparecer `.env` nem arquivos `.sqlite`)
-3. `git add -A`
-4. `git commit -m "refactor: MVP — better-sqlite3, bcrypt, camadas, migrations, a11y, testes e deploy no Render"`
-5. `git push`
+1. Entrar em **dashboard.render.com** com a conta do GitHub.
+2. Procurar um serviço chamado `rocket-q`.
+3. Se existir: abrir **Settings**, conferir **Repository** = `douglasabnovato/rocket-q` e **Branch** = `main`, e clicar em **Manual Deploy → Deploy latest commit**. Pular para a Etapa 4.
+4. Se não existir: seguir a Etapa 3.
 
-### Etapa 3 · Criar o serviço no Render
+### Etapa 3 · Criar o serviço pelo Blueprint
 
-1. Entrar em **render.com** com o GitHub e autorizar o repositório `rocket-q`.
-2. **New → Blueprint** e escolher `douglasabnovato/rocket-q`.
-3. Conferir o serviço `rocket-q`, plano **Free**, e clicar em **Apply**.
-4. Acompanhar **Logs** até aparecer `Rocket.Q rodando`.
+1. **New → Blueprint** e escolher `douglasabnovato/rocket-q` (autorizar o repositório, se o Render pedir).
+2. Conferir o serviço `rocket-q`, plano **Free**, e clicar em **Apply**.
+3. Acompanhar **Logs** até aparecer `Rocket.Q rodando`.
+4. Anotar o endereço que o Render mostra no topo do serviço. Se o nome `rocket-q` já for de outra conta, ele vem com sufixo (`rocket-q-xxxx.onrender.com`).
 
 ### Etapa 4 · Conferir no ar
 
-1. Criar uma sala com senha e anotar o código.
-2. Em outra aba anônima, entrar pelo código e enviar uma pergunta.
-3. Na aba do dono, marcar como lida e excluir com a senha.
-4. Errar a senha várias vezes seguidas: aparece o aviso de muitas tentativas.
+1. `curl -s https://<endereço>/ | grep -o "<title>.*</title>"` deve mostrar `Entrar numa sala · Rocket.Q`.
+2. `curl -s -D - -o /dev/null https://<endereço>/ | grep -i "content-security-policy"` deve mostrar a CSP do `helmet`.
+3. Criar uma sala com senha e anotar o código.
+4. Em outra aba anônima, entrar pelo código e enviar uma pergunta. Na aba do dono, ela aparece em até 15 s, sem recarregar.
+5. Na aba do dono, marcar como lida e excluir com a senha.
 
 ### Etapa 5 · Fechar
 
-1. Se a URL real for diferente de `https://rocket-q.onrender.com`, corrigir no `README.md`, commit e push.
-2. No GitHub, **About → Website**: colar a URL.
+1. Responder na #17 com o endereço real.
+2. No GitHub, **About → Website**: colar o endereço.
+3. O agente do ciclo seguinte põe o link no README e no `docs/MVP.md`, depois de conferir com `curl`.
