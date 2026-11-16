@@ -1,4 +1,4 @@
-# Verificação de projeto de estudo: não publica nada
+# Verificação de projeto de estudo: testes de integração (raiz) e fluxo no navegador (e2e). Não publica nada
 name: CI
 
 on:
@@ -25,3 +25,24 @@ jobs:
           cache-dependency-path: package-lock.json
       - run: npm ci
       - run: npm test
+
+  e2e:
+    # Fluxo principal no navegador (Playwright + axe), com o servidor real e SQLite em memória
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: package-lock.json
+      - run: npm ci
+      - run: npx playwright install --with-deps chromium
+      - run: npm run test:e2e
+      - uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: playwright-traces
+          path: test-results/
+          retention-days: 7

@@ -162,4 +162,46 @@ test('migra o schema legado com senha em texto puro para hash', () => {
     assert.equal(legacy.pragma('user_version', { simple: true }), 1)
     migrate(legacy)
 })
+test('questions.json devolve não lidas e lidas, só com id e texto, sem cache', async () => {
+    const roomId = await createRoom('segredo1')
+    await ask(roomId, 'Primeira')
+    await ask(roomId, 'Segunda <b>com HTML</b>')
+    const first = db.prepare("SELECT id FROM questions WHERE title = 'Primeira'").get().id
+    await request(app).post(`/question/${roomId}/${first}/check`).type('form').send({ password: 'segredo1' })
+
+    const response = await request(app).get(`/room/${roomId}/questions.json`)
+    assert.equal(response.status, 200)
+    assert.match(response.headers['content-type'], /^application\/json/)
+    assert.equal(response.headers['cache-control'], 'no-store')
+    assert.equal(response.body.roomId, roomId)
+    assert.deepEqual(response.body.unread.map((q) => q.title), ['Segunda <b>com HTML</b>'])
+    assert.deepEqual(response.body.read, [{ id: first, title: 'Primeira' }])
+    assert.deepEqual(Object.keys(response.body.unread[0]).sort(), ['id', 'title'])
+    assert.doesNotMatch(response.text, /pass/)
+})
+
+test('questions.json de sala vazia devolve listas vazias', async () => {
+    const roomId = await createRoom('segredo1')
+    const response = await request(app).get(`/room/${roomId}/questions.json`)
+    assert.equal(response.status, 200)
+    assert.deepEqual(response.body, { roomId, unread: [], read: [] })
+})
+
+test('questions.json de sala inexistente ou código inválido responde 404 em JSON', async () => {
+    for (const code of ['999999', 'abc']) {
+        const response = await request(app).get(`/room/${code}/questions.json`)
+        assert.equal(response.status, 404)
+        assert.match(response.headers['content-type'], /^application\/json/)
+        assert.deepEqual(response.body, { erro: 'Sala não encontrada.' })
+    }
+})
+
+test('a sala marca cada pergunta com data-id e tem o aviso de atualização', async () => {
+    const roomId = await createRoom('segredo1')
+    await ask(roomId, 'Com id')
+    const id = db.prepare("SELECT id FROM questions WHERE title = 'Com id'").get().id
+    const page = await request(app).get(`/room/${roomId}`)
+    assert.match(page.text, new RegExp(`<article class="question-wrapper" data-id="${id}">`))
+    assert.match(page.text, /id="questions-status" role="status"/)
+})
 /* fim de app.test.js */
