@@ -2,8 +2,10 @@
  * questions-live.js · atualiza a lista de perguntas sem recarregar a página.
  * A cada 15 s consulta /room/:room/questions.json e só troca a lista quando algo mudou.
  * Não consulta com a aba oculta nem troca a lista com o diálogo de senha aberto.
+ * Ao voltar para a aba, consulta na hora.
  */
 export const INTERVALO_MS = 15000
+const AVISO_MS = 100
 
 /* Assinatura da lista: ids na ordem e estado (n = não lida, l = lida). */
 function assinatura(unread, read) {
@@ -95,15 +97,21 @@ export default function iniciarAtualizacao({ roomId, lista, aviso, dialogoAberto
         ]
         lista.replaceChildren(...(filhos.length ? filhos : [vazio()]))
         atual = nova
-        aviso.textContent = textoDoAviso(novas)
+        // Limpa e grava depois: o leitor de tela anuncia de novo mesmo quando o texto se repete.
+        aviso.textContent = ''
+        setTimeout(() => { aviso.textContent = textoDoAviso(novas) }, AVISO_MS)
 
         if (seletorFoco) {
-            const alvo = lista.querySelector(seletorFoco)
+            // Se "Marcar como lida" sumiu (a pergunta virou lida), o foco vai para "Excluir" da mesma pergunta.
+            const alvo = lista.querySelector(seletorFoco) || lista.querySelector(`.delete[data-id="${focado.dataset.id}"]`)
             if (alvo) alvo.focus()
         }
     }
 
     setInterval(consultar, INTERVALO_MS)
+    document.addEventListener('visibilitychange', () => {
+        if (!document.hidden) consultar()
+    })
     return consultar
 }
 /* fim de questions-live.js */

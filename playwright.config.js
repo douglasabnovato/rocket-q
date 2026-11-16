@@ -2,7 +2,9 @@
  * playwright.config.js · teste de ponta a ponta no navegador.
  * Sobe o servidor real com SQLite em memória numa porta própria.
  * O limite de 10 tentativas por minuto vale para o servidor inteiro:
- * por isso um worker só, sem nova tentativa, e o projeto de celular só roda os testes @celular.
+ * por isso um worker só, sem nova tentativa, e o projeto de 375 px só roda os testes @celular.
+ * Orçamento em 16/11/2026: 4 criações de sala e 2 ações com senha (6 de 10). Teste novo com senha conta aqui.
+ * O projeto "celular" é o Chromium de desktop com 375 px de largura (sem toque nem isMobile).
  */
 const { defineConfig, devices } = require('@playwright/test')
 
